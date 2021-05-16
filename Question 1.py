@@ -253,7 +253,6 @@ for i in range(len(all_time_tick)):
   box_id = all_box_id[i]
   spec = put_traj.GetConfigurationSpecification()
   q_tick = np.zeros((len(time_tick), robot.GetActiveDOF()))
-  print('box id = ', box_id)
 
   for tick in range(len(time_tick)):
     trajdata = put_traj.Sample(time_tick[tick])
@@ -270,7 +269,7 @@ for i in range(len(all_time_tick)):
             if abs(T[2, 2]) > 1:
                 T[2, 2] = T[2, 2] / abs(T[2, 2])
         angles[tick] = (180 - np.arccos(T[2, 2]) * 180 / np.pi)
-  print('box id', box_id, 'angles = ', angles)
+
   fig = plt.figure(i)
   ax = fig.gca()
   plt.plot(time_tick, angles, 'r', linewidth = 2, label='box %d'%box_id)
@@ -285,6 +284,6 @@ pdf.close()
 print('successful = ', successful)
 print('cmi = ', cmi)
 print('It is done!')
-print('Time Taken = ', (end_time - start_time)/60)
+print('Time Taken = ', (end_time - start_time)/60, 'min')
 
 raw_input('Press enter to quit')
