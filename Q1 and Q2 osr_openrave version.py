@@ -63,7 +63,7 @@ np.set_printoptions(precision=6, suppress=True)
 
 iktype = orpy.IkParameterization.Type.Transform6D
 
-ikmodel = databases.inversekinematics.InverseKinematicsModel(robot, iktype=orpy.IkParameterization.Type.Transform6D)
+ikmodel = databases.inversekinematics.InverseKinematicsModel(robot, iktype=iktype)
 if not ikmodel.load():
   ikmodel.autogenerate()
 
