@@ -305,7 +305,8 @@ for i in range(-1, -41, -1):
   # The gripper will try to move the box higher than the container for a smoother trajectory when putting down the box #
   try:
     z = manipulator.GetEndEffectorTransform()[2,3]
-    while(z < 0.435):
+    iteration = 0
+    while(z < 0.43):
       manipprob.MoveHandStraight(direction=updir, stepsize=0.01, minsteps=1, maxsteps=20)
       robot.WaitForController(0)
 
@@ -316,6 +317,10 @@ for i in range(-1, -41, -1):
       robot.WaitForController(0)
 
       z = manipulator.GetEndEffectorTransform()[2,3]
+
+      iteration += 1
+      if(iteration > 10):
+        break
 
     put_traj = to_put(robot, qgoal)
     robot.GetController().SetPath(put_traj)
@@ -345,7 +350,7 @@ for i in range(-1, -41, -1):
   
 end_time = time.time()
 
-pdf = matplotlib.backends.backend_pdf.PdfPages('for_testing.pdf')
+pdf = matplotlib.backends.backend_pdf.PdfPages('Tilt Angle Without Constraint.pdf')
 
 for i in range(len(all_time_tick)):
   time_tick = all_time_tick[i]
@@ -367,8 +372,8 @@ for i in range(len(all_time_tick)):
         if(tilt_tries != 0):
           for tries in range(tilt_tries):
             T = tilt(T,-1)
-            if(abs(T[2, 2]) > 1):
-                T[2, 2] = T[2, 2] / abs(T[2, 2])
+        if(abs(T[2, 2]) > 1):
+            T[2, 2] = T[2, 2] / abs(T[2, 2])
         angles[tick] = (180 - np.arccos(T[2, 2]) * 180 / np.pi)
   fig = plt.figure(i)
   ax = fig.gca()
